@@ -1,19 +1,24 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import Button from '@/src/components/button';
 import products from '@/assets/data/products';
-// Define size options as a type
-type SizeOption = '250g' | '500g' | '1kg' |'1.5kg'| '2L'|'250ml' | '500ml' | '1L' | 'Single Pack' | 'Pack of 2' | 'Pack of 4' | '6 pcs' | '12 pcs' | '24 pcs';
+import { CartItem, WeightSize, VolumeSize, PackSize, CountSize } from '@/src/types';
+import { useCart } from '@/src/provider/cartprovider';
 
-const weightSizes: SizeOption[] = ['250g', '500g', '1kg', '1.5kg'];
-const volumeSizes: SizeOption[] = ['250ml', '500ml', '1L', '2L'];
-const packSizes: SizeOption[] = ['Single Pack', 'Pack of 2', 'Pack of 4'];
-const countSizes: SizeOption[] = ['6 pcs', '12 pcs', '24 pcs'];
+// Define size options as a type
+type SizeOption = WeightSize | VolumeSize | PackSize | CountSize;
+
+const weightSizes: WeightSize[] = ['250g', '500g', '1kg', '2kg'];
+const volumeSizes: VolumeSize[] = ['250ml', '500ml', '1L', '2L'];
+const packSizes: PackSize[] = ['Single Pack', 'Pack of 2', 'Pack of 4'];
+const countSizes: CountSize[] = ['6 pcs', '12 pcs', '24 pcs'];
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams();
+  const { addItem } = useCart();
   const product = products.find((p) => p.id === Number(id));
+  const router = useRouter();
 
   // Initialize sizes with a default value
   let sizes: SizeOption[] = [];
@@ -42,13 +47,18 @@ const ProductDetailsScreen = () => {
   const [selectedSize, setSelectedSize] = useState<SizeOption>(sizes[0]);
 
   const addToCart = () => {
-    if (!product) return;
-    console.warn('Add to cart:', selectedSize);
+    if (!product) {
+      console.error('Product not found');
+      return;
+    }
+    addItem(product, selectedSize);
+    router.push('/cart')
   };
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product?.name || 'Product' }} />
+      
       <Image
         source={{ uri: product?.image }}
         style={styles.image}
