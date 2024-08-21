@@ -1,7 +1,7 @@
 import { createContext, Profiler, PropsWithChildren, useContext, useState } from "react";
 import { CartItem, Product } from "../types";
 import { randomUUID } from "expo-crypto";
-import ProductDetailsScreen from "../app/(tabs)/menu/[id]";
+import ProductDetailsScreen from "../app/(user)/menu/[id]";
 
 type CartType = {
   items: CartItem[];
