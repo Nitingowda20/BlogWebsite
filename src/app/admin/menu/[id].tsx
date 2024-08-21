@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import Button from '@/src/components/button';
 import products from '@/assets/data/products';
 import { CartItem, WeightSize, VolumeSize, PackSize, CountSize } from '@/src/types';
 import { useCart } from '@/src/provider/cartprovider';
+import { FontAwesome } from '@expo/vector-icons';
+import Colors from '@/src/constants/Colors';
 
 // Define size options as a type
 type SizeOption = WeightSize | VolumeSize | PackSize | CountSize;
@@ -57,6 +59,25 @@ const ProductDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "Menu",
+          headerRight: () => (
+            <Link href={`/admin/menu/create?id=${id}`} asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <Stack.Screen options={{ title: product?.name || "Product" }} />
 
       <Image

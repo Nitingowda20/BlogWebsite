@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Image, TextInput } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, Alert } from "react-native";
 import React, { useState } from "react";
 import Colors from "@/src/constants/Colors";
 import Button from "@/src/components/button";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 const CreateScreen = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -12,6 +12,9 @@ const CreateScreen = () => {
   const [errors, setErrors] = useState("");
 
   const router = useRouter();
+
+  const{id}= useLocalSearchParams();
+  const isUpdating = !!id;
 
   const validateInput = () => {
     setErrors("");
@@ -42,6 +45,40 @@ const CreateScreen = () => {
     router.back();
   };
 
+  const onUpdateCreate = () => {
+    if (!validateInput()) {
+      return;
+    }
+
+    console.warn("Updating Product");
+    router.back();
+  };
+
+const onSubmit=()=>{
+    if(isUpdating){
+        //updat
+        onUpdateCreate();
+    }
+    else{
+        onCreate();
+    }
+}
+const onDelete =()=>{
+    console.warn('Deleteee')
+}
+const confirmDelete=()=>{
+    //Deleting
+    Alert.alert('Confrim' , "Are you aure you want to the delete the product.", [
+        {
+            text:'Cancel'
+        },
+        {
+            text :'Delete',
+            style:'destructive',
+            onPress:onDelete
+        }
+    ])
+}
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -59,8 +96,11 @@ const CreateScreen = () => {
   };
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{ title: isUpdating ? "Update Product" : "Create Product" }}
+      />
       <Image
-        source={{ uri: image || 'https://picsum.photos/seed/almondmilk/200', }}
+        source={{ uri: image || "https://picsum.photos/seed/almondmilk/200" }}
         style={styles.image}
         resizeMode="contain"
       />
@@ -87,7 +127,8 @@ const CreateScreen = () => {
       />
 
       <Text style={styles.error}>{errors}</Text>
-      <Button onPress={onCreate} text="Create" />
+      <Button onPress={onSubmit} text={isUpdating ? "Update" : "Create"} />
+      {isUpdating && <Text onPress={confirmDelete}style={styles.textButton}>Delete</Text>}
     </View>
   );
 };
