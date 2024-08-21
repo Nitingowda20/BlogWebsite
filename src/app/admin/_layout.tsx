@@ -33,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="menu"
         options={{
-          title: 'Menu',
+          title: 'AdminMenu',
           tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} />,
           headerShown: false,
         }}
