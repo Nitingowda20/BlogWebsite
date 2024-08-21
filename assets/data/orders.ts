@@ -1,4 +1,4 @@
-import { Order } from '../../src/types';
+import { Order, OrderItem } from '../../src/types';
 import products from './products';
 import dayjs from 'dayjs';
 
@@ -17,14 +17,16 @@ const orders: Order[] = [
         order_id: 12345,
         quantity: 3,
         product_id: products[0].id,
-        products: products[0],
+        product: products[0], // Corrected property name
+        size: products[0].type === 'weight' ? '500g' : 'Single Pack', // Example size, adjust as needed
       },
       {
         id: 2,
         order_id: 12345,
         quantity: 2,
         product_id: products[1].id,
-        products: products[1],
+        product: products[1], // Corrected property name
+        size: products[1].type === 'volume' ? '250ml' : 'Pack of 2', // Example size, adjust as needed
       },
     ],
   },
@@ -40,14 +42,16 @@ const orders: Order[] = [
         order_id: 67890,
         quantity: 1,
         product_id: products[4].id,
-        products: products[4],
+        product: products[4], // Corrected property name
+        size: products[4].type === 'weight' ? '1kg' : 'Single Pack', // Example size, adjust as needed
       },
       {
         id: 2,
         order_id: 67890,
         quantity: 4,
         product_id: products[2].id,
-        products: products[2],
+        product: products[2], // Corrected property name
+        size: products[2].type === 'volume' ? '500ml' : 'Pack of 4', // Example size, adjust as needed
       },
     ],
   },
@@ -63,21 +67,24 @@ const orders: Order[] = [
         order_id: 24680,
         quantity: 2,
         product_id: products[5].id,
-        products: products[5],
+        product: products[5], // Corrected property name
+        size: products[5].type === 'packSize' ? 'Pack of 2' : '1 pc', // Example size, adjust as needed
       },
       {
         id: 2,
         order_id: 24680,
         quantity: 1,
         product_id: products[8].id,
-        products: products[8],
+        product: products[8], // Corrected property name
+        size: products[8].type === 'count' ? '6 pcs' : '1 pc', // Example size, adjust as needed
       },
       {
         id: 3,
         order_id: 24680,
         quantity: 3,
         product_id: products[7].id,
-        products: products[7],
+        product: products[7], // Corrected property name
+        size: products[7].type === 'volume' ? '1L' : 'Pack of 4', // Example size, adjust as needed
       },
     ],
   },

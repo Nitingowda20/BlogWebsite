@@ -26,13 +26,13 @@ export type CartItem = {
 };
 
 // Define possible order statuses
-export type OrderStatus = 'New' | 'Processing' | 'Delivering' | 'Delivered';
+export type OrderStatus = 'New' | 'Processing' | 'Out for Delivery' | 'Delivered';
 
 // List of order statuses
 export const OrderStatusList: OrderStatus[] = [
   'New',
   'Processing',
-  'Delivering',
+  'Out for Delivery',
   'Delivered',
 ];
 
